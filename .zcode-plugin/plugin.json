@@ -1,0 +1,21 @@
+{
+  "name": "openviking-memory",
+  "version": "0.1.0",
+  "description": "Long-term semantic memory for ZCode, powered by OpenViking. Auto-recall relevant memories at session start and capture important information during conversations.",
+  "author": {
+    "name": "OpenViking port for ZCode"
+  },
+  "license": "Apache-2.0",
+  "keywords": [
+    "memory",
+    "openviking",
+    "semantic-search",
+    "long-term-memory"
+  ],
+  "skills": "skills",
+  "commands": "commands",
+  "hooks": "hooks/hooks.json",
+  "icon": "assets/logo.svg",
+  "logo": "assets/logo.svg",
+  "lastUpdated": "2026-07-29T12:50:20.220Z"
+}
