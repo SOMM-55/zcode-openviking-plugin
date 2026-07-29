@@ -38,9 +38,27 @@ curl http://127.0.0.1:1933/mcp   # should return 406 (the MCP handshake)
 In ZCode, open **Settings → Plugin Management → Discover** and click **`+`** to add a marketplace:
 
 - **Option A**: paste this repo URL → `https://github.com/SOMM-55/zcode-openviking-plugin.git`
-- **Option B**: add the local directory `C:\Users\OMID\Code\openviking-memory` (during development)
+- **Option B**: add the local directory `C:\Users\OMID\Code\zcode-openviking-marketplace` (during development)
 
 Then install the `openviking-memory` plugin from the **Discover** tab.
+
+#### Marketplace layout (for reference)
+
+This repository is a **marketplace wrapper** that hosts one plugin under `plugins/openviking-memory/`. ZCode's marketplace loader expects this nested layout when installing from a `directory` source:
+
+```
+zcode-openviking-marketplace/             ← the wrapper, registered with ZCode
+├── marketplace.json                       ← path: "plugins/openviking-memory" (relative, no leak)
+├── plugins/openviking-memory/              ← the plugin
+│   ├── .zcode-plugin/plugin.json
+│   ├── commands/{ov,ov-status}.md
+│   ├── hooks/hooks.json
+│   ├── skills/openviking-usage/SKILL.md
+│   └── scripts/{auto-recall,auto-capture,...}.mjs
+└── README.md, CHANGELOG.md, CONTRIBUTING.md, LICENSE
+```
+
+ZCode clones this wrapper to `~/.zcode/plugin-workspace/plugins/openviking-memory/` and resolves the plugin manifest at the relative `plugins/openviking-memory/` path inside the clone.
 
 ### 3. Add the OpenViking MCP server (if not already)
 
