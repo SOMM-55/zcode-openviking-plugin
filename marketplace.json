@@ -7,7 +7,7 @@
       "description": "Long-term semantic memory for ZCode, powered by OpenViking. Local port of the OpenViking Claude Code plugin.",
       "source": {
         "source": "directory",
-        "path": "C:/Users/OMID/Code/zcode-openviking-marketplace"
+        "path": "plugin.json"
       },
       "category": "productivity",
       "keywords": [
