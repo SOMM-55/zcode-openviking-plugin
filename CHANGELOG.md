@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+- **Reverted to flat wrapper layout** — the nested `plugins/openviking-memory/` layout introduced in v0.1.0 made the plugin install without any hooks, skills, or commands being registered. ZCode's `directory` source loader copies the wrapper root verbatim into `cache/<marketplace>/<plugin>/<version>/` and looks for `.zcode-plugin/plugin.json` directly there — it does not resolve `marketplace.json`'s `source.path` field for nested subdirectories. All plugin files now live at the repo root next to `marketplace.json`. `marketplace.json` `source.path` is now `"."`. The plugin code itself is unchanged.
+
 ## [0.1.0] - 2026-07-29
 
 ### Added

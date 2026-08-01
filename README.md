@@ -42,23 +42,26 @@ In ZCode, open **Settings → Plugin Management → Discover** and click **`+`**
 
 Then install the `openviking-memory` plugin from the **Discover** tab.
 
-#### Marketplace layout (for reference)
+#### Marketplace layout
 
-This repository is a **marketplace wrapper** that hosts one plugin under `plugins/openviking-memory/`. ZCode's marketplace loader expects this nested layout when installing from a `directory` source:
+This repository is a single-plugin **marketplace wrapper**. ZCode's `directory` source loader copies the whole repo to `~/.zcode/cli/plugins/cache/openviking-memory/openviking-memory/<version>/` and looks for `.zcode-plugin/plugin.json` **directly at that root** — so all plugin files live at the repo root, not under a `plugins/<name>/` subfolder:
 
 ```
 zcode-openviking-marketplace/             ← the wrapper, registered with ZCode
-├── marketplace.json                       ← path: "plugins/openviking-memory" (relative, no leak)
-├── plugins/openviking-memory/              ← the plugin
-│   ├── .zcode-plugin/plugin.json
-│   ├── commands/{ov,ov-status}.md
-│   ├── hooks/hooks.json
-│   ├── skills/openviking-usage/SKILL.md
-│   └── scripts/{auto-recall,auto-capture,...}.mjs
+├── marketplace.json                       ← path: "." (self-reference)
+├── .zcode-plugin/plugin.json              ← plugin manifest, at root
+├── .zcode-plugin/assets/logo.svg
+├── commands/{ov,ov-status}.md
+├── hooks/hooks.json
+├── skills/openviking-usage/SKILL.md
+├── skills/openviking-usage/references/*.md
+├── scripts/{auto-recall,auto-capture,...}.mjs
+├── scripts/lib/*.mjs
+├── package.json
 └── README.md, CHANGELOG.md, CONTRIBUTING.md, LICENSE
 ```
 
-ZCode clones this wrapper to `~/.zcode/plugin-workspace/plugins/openviking-memory/` and resolves the plugin manifest at the relative `plugins/openviking-memory/` path inside the clone.
+> **Why flat?** Earlier versions of this repo used a nested `plugins/openviking-memory/` layout, but the current ZCode loader does **not** resolve `source.path` for `directory` marketplaces — it just copies the wrapper root and expects `.zcode-plugin/plugin.json` to be there. The flat layout matches what the loader actually does.
 
 ### 3. Add the OpenViking MCP server (if not already)
 
@@ -201,24 +204,20 @@ mcp__openviking__grep({ uri: "viking://...", pattern: ["..."] })
 ## 📁 Project structure
 
 ```
-openviking-memory/
+zcode-openviking-marketplace/             ← wrapper + plugin in one repo
+├── marketplace.json                       ← marketplace manifest
 ├── .zcode-plugin/
-│   ├── plugin.json          # ZCode manifest
-│   └── assets/logo.svg      # plugin icon
-├── skills/
-│   └── openviking-usage/
-│       ├── SKILL.md
-│       └── references/
-│           ├── tools.md
-│           ├── patterns.md
-│           └── troubleshooting.md
+│   ├── plugin.json                        # ZCode manifest (at wrapper root)
+│   └── assets/logo.svg
+├── skills/openviking-usage/
+│   ├── SKILL.md
+│   └── references/{tools,patterns,troubleshooting}.md
 ├── commands/
-│   ├── ov.md                # /ov <subcommand>
+│   ├── ov.md
 │   └── ov-status.md
-├── hooks/
-│   └── hooks.json
+├── hooks/hooks.json
 ├── scripts/
-│   ├── lib/                 # config, discovery, client, recall, capture, …
+│   ├── lib/                               # config, discovery, client, recall, capture, …
 │   ├── session-start.mjs
 │   ├── auto-recall.mjs
 │   ├── auto-capture.mjs
@@ -226,13 +225,12 @@ openviking-memory/
 │   ├── pre-compact.mjs
 │   ├── session-end.mjs
 │   ├── setup-wizard.mjs
-│   ├── ov.mjs               # /ov dispatcher
+│   ├── ov.mjs                             # /ov dispatcher
 │   ├── ov-status.mjs
 │   └── smoke.mjs
-├── docs/
-│   └── superpowers/
-│       ├── specs/2026-07-29-openviking-memory-plugin-design.md
-│       └── plans/2026-07-29-openviking-memory-plugin.md
+├── docs/superpowers/
+│   ├── specs/2026-07-29-openviking-memory-plugin-design.md
+│   └── plans/2026-07-29-openviking-memory-plugin.md
 ├── README.md
 ├── CHANGELOG.md
 ├── CONTRIBUTING.md

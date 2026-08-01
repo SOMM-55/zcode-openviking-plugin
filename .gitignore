@@ -52,3 +52,6 @@ coverage/
 # Misc
 *.tgz
 *.tar.gz
+
+# ZCode runtime state (created when ZCode opens this repo as a workspace)
+/.zcode/

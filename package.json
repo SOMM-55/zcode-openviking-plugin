@@ -5,7 +5,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "test": "node --test scripts/lib/*.test.mjs"
+    "test": "node --test scripts/lib/*.test.mjs scripts/uri-guard.test.mjs"
   },
   "author": { "name": "OpenViking port for ZCode" },
   "license": "Apache-2.0"
